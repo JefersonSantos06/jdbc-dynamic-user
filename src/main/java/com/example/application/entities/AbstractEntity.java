@@ -1,23 +1,23 @@
 package com.example.application.entities;
 
-import java.util.Objects;
+public abstract class AbstractEntity<T extends AbstractEntity<T, ID>, ID extends Number> {
 
-public abstract class AbstractEntity<T extends Number> {
+    private ID id;
 
-    private T id;
-
-    public T getId() {
+    public ID getId() {
         return id;
     }
 
-    public void setId(T id) {
+    @SuppressWarnings("unchecked")
+    public T setId(final ID id) {
         this.id = id;
+        return (T) this;
     }
 
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        final AbstractEntity<?> that = (AbstractEntity<?>) o;
+        final var that = (AbstractEntity<?,?>) o;
         if (id == null || that.id == null) {
             return false;
         }

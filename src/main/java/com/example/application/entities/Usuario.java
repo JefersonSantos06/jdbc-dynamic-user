@@ -7,13 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class Usuario extends AbstractEntity<Long> implements UserDetails {
+public class Usuario extends AbstractEntity<Usuario, Long> implements UserDetails {
 
     private String nome;
     private String email;
     private String senha;
     private String foto;
-    private Boolean ativo;
+    private boolean ativo;
 
     public String getNome() {
         return nome;
@@ -51,11 +51,11 @@ public class Usuario extends AbstractEntity<Long> implements UserDetails {
         return this;
     }
 
-    public Boolean getAtivo() {
+    public boolean isAtivo() {
         return ativo;
     }
 
-    public Usuario setAtivo(final Boolean ativo) {
+    public Usuario setAtivo(final boolean ativo) {
         this.ativo = ativo;
         return this;
     }
@@ -67,12 +67,12 @@ public class Usuario extends AbstractEntity<Long> implements UserDetails {
 
     @Override
     public String getPassword() {
-        return senha;
+        return getSenha();
     }
 
     @Override
     public String getUsername() {
-        return nome;
+        return getNome();
     }
 
     @Override
@@ -92,6 +92,6 @@ public class Usuario extends AbstractEntity<Long> implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return ativo == null || ativo;
+        return isAtivo();
     }
 }

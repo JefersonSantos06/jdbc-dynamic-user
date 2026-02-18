@@ -71,7 +71,7 @@ public class UsuarioRepositoryImpl extends AbstractRepository implements Usuario
                 .param("email", usuario.getEmail())
                 .param("senha", usuario.getSenha())
                 .param("foto", usuario.getFoto())
-                .param("ativo", usuario.getAtivo() == null || usuario.getAtivo())
+                .param("ativo", usuario.isAtivo())
                 .update();
     }
 
@@ -89,7 +89,7 @@ public class UsuarioRepositoryImpl extends AbstractRepository implements Usuario
                 .param("email", usuario.getEmail())
                 .param("senha", usuario.getSenha())
                 .param("foto", usuario.getFoto())
-                .param("ativo", usuario.getAtivo() == null || usuario.getAtivo())
+                .param("ativo", usuario.isAtivo())
                 .update();
     }
 
