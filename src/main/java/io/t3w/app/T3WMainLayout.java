@@ -1,4 +1,4 @@
-package com.example.application;
+package io.t3w.app;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -17,9 +17,9 @@ import com.vaadin.flow.server.menu.MenuEntry;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 @Layout
-public final class MainLayout extends AppLayout {
+public final class T3WMainLayout extends AppLayout {
 
-    MainLayout() {
+    T3WMainLayout() {
         setPrimarySection(Section.DRAWER);
         addToDrawer(createHeader(), new Scroller(createSideNav()));
     }

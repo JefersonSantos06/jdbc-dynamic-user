@@ -1,6 +1,6 @@
-package com.example.application.entities;
+package io.t3w.app.entities;
 
-public abstract class AbstractEntity<T extends AbstractEntity<T, ID>, ID extends Number> {
+public abstract class T3WAbstractEntity<T extends T3WAbstractEntity<T, ID>, ID extends Number> {
 
     private ID id;
 
@@ -17,7 +17,7 @@ public abstract class AbstractEntity<T extends AbstractEntity<T, ID>, ID extends
     @Override
     public boolean equals(final Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        final var that = (AbstractEntity<?,?>) o;
+        final var that = (T3WAbstractEntity<?,?>) o;
         if (id == null || that.id == null) {
             return false;
         }

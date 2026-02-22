@@ -1,4 +1,4 @@
-package com.example.application;
+package io.t3w.app;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.slf4j.event.Level;
 import java.util.function.Supplier;
 
 
-public interface Loggable {
+public interface T3WLoggable {
 
     default Logger getLogger() {
         return LoggerFactory.getLogger(getClass());

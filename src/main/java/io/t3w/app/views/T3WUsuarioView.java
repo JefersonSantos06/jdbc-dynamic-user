@@ -1,26 +1,24 @@
-package com.example.application.views;
+package io.t3w.app.views;
 
-import com.example.application.entities.Usuario;
-import com.example.application.services.UsuarioService;
+import io.t3w.app.entities.T3WUsuarioEntity;
+import io.t3w.app.services.T3WUsuarioService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Hr;
 import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("")
-public class TesteView extends Div {
+public class T3WUsuarioView extends Div {
 
-    public TesteView(@Autowired UsuarioService usuarioService) {
+    public T3WUsuarioView(@Autowired T3WUsuarioService usuarioService) {
 
-        final var binder = new Binder<Usuario>();
-        binder.setBean(new Usuario());
+        final var binder = new Binder<T3WUsuarioEntity>();
+        binder.setBean(new T3WUsuarioEntity());
 
         final var button = new Button();
 
@@ -36,7 +34,7 @@ public class TesteView extends Div {
                 notification.setDuration(1000);
                 notification.add("Nada encontrado");
                 notification.open();
-                binder.setBean(new Usuario());
+                binder.setBean(new T3WUsuarioEntity());
             } else {
                 binder.setBean(usuario);
             }
@@ -48,9 +46,9 @@ public class TesteView extends Div {
         final var tfSenha = new PasswordField("senha");
 
         binder.bindReadOnly(tfId, u -> u.getId() != null ? u.getId().toString() : "");
-        binder.bind(tfName, Usuario::getNome, Usuario::setNome);
-        binder.bind(tfEmail, Usuario::getEmail, Usuario::setEmail);
-        binder.forField(tfSenha).bind(_ -> "", Usuario::setSenha);
+        binder.bind(tfName, T3WUsuarioEntity::getNome, T3WUsuarioEntity::setNome);
+        binder.bind(tfEmail, T3WUsuarioEntity::getEmail, T3WUsuarioEntity::setEmail);
+        binder.forField(tfSenha).bind(_ -> "", T3WUsuarioEntity::setSenha);
 
         final var buttonSave = new Button("Salvar");
 

@@ -1,4 +1,4 @@
-package com.example.application.entities;
+package io.t3w.app.entities;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class Usuario extends AbstractEntity<Usuario, Long> implements UserDetails {
+public class T3WUsuarioEntity extends T3WAbstractEntity<T3WUsuarioEntity, Long> implements UserDetails {
 
     private String nome;
     private String email;
@@ -19,7 +19,7 @@ public class Usuario extends AbstractEntity<Usuario, Long> implements UserDetail
         return nome;
     }
 
-    public Usuario setNome(final String nome) {
+    public T3WUsuarioEntity setNome(final String nome) {
         this.nome = nome;
         return this;
     }
@@ -28,7 +28,7 @@ public class Usuario extends AbstractEntity<Usuario, Long> implements UserDetail
         return email;
     }
 
-    public Usuario setEmail(final String email) {
+    public T3WUsuarioEntity setEmail(final String email) {
         this.email = email;
         return this;
     }
@@ -37,7 +37,7 @@ public class Usuario extends AbstractEntity<Usuario, Long> implements UserDetail
         return senha;
     }
 
-    public Usuario setSenha(final String senha) {
+    public T3WUsuarioEntity setSenha(final String senha) {
         this.senha = senha;
         return this;
     }
@@ -46,7 +46,7 @@ public class Usuario extends AbstractEntity<Usuario, Long> implements UserDetail
         return foto;
     }
 
-    public Usuario setFoto(final String foto) {
+    public T3WUsuarioEntity setFoto(final String foto) {
         this.foto = foto;
         return this;
     }
@@ -55,7 +55,7 @@ public class Usuario extends AbstractEntity<Usuario, Long> implements UserDetail
         return ativo;
     }
 
-    public Usuario setAtivo(final boolean ativo) {
+    public T3WUsuarioEntity setAtivo(final boolean ativo) {
         this.ativo = ativo;
         return this;
     }

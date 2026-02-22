@@ -1,29 +1,29 @@
-package com.example.application.services;
+package io.t3w.app.services;
 
-import com.example.application.entities.Usuario;
-import com.example.application.repository.usuario.UsuarioRepository;
+import io.t3w.app.entities.T3WUsuarioEntity;
+import io.t3w.app.repository.T3WUsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UsuarioService {
+public class T3WUsuarioService {
 
-    private final UsuarioRepository usuarioRepository;
+    private final T3WUsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(final UsuarioRepository usuarioRepository, final PasswordEncoder passwordEncoder) {
+    public T3WUsuarioService(final T3WUsuarioRepository usuarioRepository, final PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
-    public Usuario findUsuarioByUsername(final String username) {
+    public T3WUsuarioEntity findUsuarioByUsername(final String username) {
        return usuarioRepository.findByUsername(username).orElse(null);
     }
 
     @Transactional
-    public Usuario saveUsuario(final Usuario usuario) {
+    public T3WUsuarioEntity saveUsuario(final T3WUsuarioEntity usuario) {
         if (usuario.getId() == null) {
             if (usuario.getSenha() == null || usuario.getSenha().isBlank()) {
                 throw new IllegalArgumentException("Senha obrigatoria para criar usuario");
@@ -38,5 +38,4 @@ public class UsuarioService {
         }
         return usuarioRepository.findById(usuario.getId()).orElseThrow();
     }
-
 }
