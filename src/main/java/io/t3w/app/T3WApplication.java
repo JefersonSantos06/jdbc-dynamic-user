@@ -1,16 +1,17 @@
 package io.t3w.app;
 
-import io.t3w.app.services.T3WUsuarioService;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.theme.aura.Aura;
 import com.vaadin.flow.theme.lumo.Lumo;
+import io.t3w.app.services.T3WUsuarioService;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -87,8 +88,8 @@ public class T3WApplication implements AppShellConfigurator, T3WLoggable {
         };
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/t3w");
-        dataSource.setUsername("pool");
-        dataSource.setPassword("a9jsko438uAsjhgMJHVfbsa87k3hj09");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("mwu7bgmynv9fewVTJ");
         dataSource.setInitialSize(2); // Conexões iniciais
         dataSource.setMaxActive(10); // Máximo de conexões ativas
         dataSource.setMaxIdle(3); // Máximo de conexões ociosas
@@ -96,5 +97,18 @@ public class T3WApplication implements AppShellConfigurator, T3WLoggable {
         dataSource.setTestOnBorrow(true); // Valida a conexão antes de usar
         dataSource.setValidationQuery("SELECT 1"); // Query de validação
         return dataSource;
+    }
+
+    @Primary
+    @Bean(name = "jc1")
+    JdbcClient jdbcClient1() {
+        getLogger().info("Criando JdbcClient primario...");
+        return JdbcClient.create(dataSourcePostgres());
+    }
+
+    @Bean(name = "jc2")
+    JdbcClient jdbcClient2() {
+        getLogger().info("Criando JdbcClient secundário...");
+        return JdbcClient.create(dataSourcePostgres());
     }
 }

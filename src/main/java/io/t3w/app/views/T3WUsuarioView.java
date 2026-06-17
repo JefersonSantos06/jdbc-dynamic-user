@@ -1,7 +1,5 @@
 package io.t3w.app.views;
 
-import io.t3w.app.entities.T3WUsuarioEntity;
-import io.t3w.app.services.T3WUsuarioService;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Hr;
@@ -10,12 +8,13 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.t3w.app.entities.T3WUsuarioEntity;
+import io.t3w.app.services.T3WUsuarioService;
 
 @Route("")
 public class T3WUsuarioView extends Div {
 
-    public T3WUsuarioView(@Autowired T3WUsuarioService usuarioService) {
+    public T3WUsuarioView(T3WUsuarioService usuarioService) {
 
         final var binder = new Binder<T3WUsuarioEntity>();
         binder.setBean(new T3WUsuarioEntity());
@@ -72,5 +71,15 @@ public class T3WUsuarioView extends Div {
         this.add(new Hr());
         this.add(tfId, tfName, tfEmail, tfSenha);
         this.add(buttonSave);
+
+
+        //grid
+        final var grid = new com.vaadin.flow.component.grid.Grid<T3WUsuarioEntity>();
+        grid.setItemsPageable(usuarioService::listPageable);
+        //grid.setDataProvider(VaadinSpringDataHelpers.fromPagingRepository(usuarioRepository));
+        grid.addColumn(T3WUsuarioEntity::getId).setHeader("ID");
+        grid.addColumn(T3WUsuarioEntity::getNome).setHeader("Nome");
+        grid.addColumn(T3WUsuarioEntity::getEmail).setHeader("Email");
+        this.add(grid);
     }
 }

@@ -12,7 +12,7 @@
 -- CREATE UNIQUE INDEX IF NOT EXISTS uk_usuario_email ON usuario (email);
 --
 -- INSERT INTO usuario (nome, email, senha, foto, ativo)
--- SELECT 'admin', 'admin@local', '{noop}admin', NULL, TRUE
+-- SELECT 'admin', 'admin@t3w.io', '{noop}admin', NULL, TRUE
 -- WHERE NOT EXISTS (
 --     SELECT 1 FROM usuario WHERE nome = 'admin'
 -- );
