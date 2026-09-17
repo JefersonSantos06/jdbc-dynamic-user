@@ -1,7 +1,12 @@
 package io.t3w.app.entities;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+
 public abstract class T3WAbstractEntity<T extends T3WAbstractEntity<T, ID>, ID extends Number> {
 
+    @Id
+    @Column("registro")
     private ID id;
 
     public ID getId() {

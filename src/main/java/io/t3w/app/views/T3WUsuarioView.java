@@ -26,7 +26,7 @@ public class T3WUsuarioView extends Div {
 
         button.setText("Find");
         button.addClickListener(e -> {
-            final var usuario = usuarioService.findUsuarioByUsername(tfFind.getValue());
+            final var usuario = usuarioService.findUsuarioByEmail(tfFind.getValue());
             if (usuario == null) {
                 final Notification notification = new Notification();
                 notification.setPosition(Notification.Position.TOP_START);
@@ -72,14 +72,14 @@ public class T3WUsuarioView extends Div {
         this.add(tfId, tfName, tfEmail, tfSenha);
         this.add(buttonSave);
 
-
         //grid
         final var grid = new com.vaadin.flow.component.grid.Grid<T3WUsuarioEntity>();
         grid.setItemsPageable(usuarioService::listPageable);
-        //grid.setDataProvider(VaadinSpringDataHelpers.fromPagingRepository(usuarioRepository));
-        grid.addColumn(T3WUsuarioEntity::getId).setHeader("ID");
-        grid.addColumn(T3WUsuarioEntity::getNome).setHeader("Nome");
-        grid.addColumn(T3WUsuarioEntity::getEmail).setHeader("Email");
+        grid.addColumn(T3WUsuarioEntity::getId).setHeader("ID").setSortable(true);
+        grid.addColumn(T3WUsuarioEntity::getNome).setHeader("Nome").setSortable(true);
+        grid.addColumn(T3WUsuarioEntity::getEmail).setHeader("Email").setSortable(true);
+        //grid.addColumn(u->u.getEstabelecimento().).setHeader("Estabelecimento");
+        //grid.addColumn();
         this.add(grid);
     }
 }

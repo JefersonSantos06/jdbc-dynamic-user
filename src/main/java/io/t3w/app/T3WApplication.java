@@ -11,21 +11,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.sql.Connection;
-import java.sql.SQLException;
 
 @SpringBootApplication
 @StyleSheet(Aura.STYLESHEET)
@@ -53,7 +47,7 @@ public class T3WApplication implements AppShellConfigurator, T3WLoggable {
     @Bean
     UserDetailsService userDetailsService(final T3WUsuarioService usuarioService) {
         return username -> {
-            final var usuario = usuarioService.findUsuarioByUsername(username);
+            final var usuario = usuarioService.findUsuarioByEmail(username);
             if (usuario == null) {
                 throw new UsernameNotFoundException("Usuario nao encontrado: " + username);
             }
@@ -70,26 +64,27 @@ public class T3WApplication implements AppShellConfigurator, T3WLoggable {
     @Bean(name = "dspg")
     DataSource dataSourcePostgres() {
         final var dataSource = new org.apache.tomcat.jdbc.pool.DataSource() {
-            @Override
-            public Connection getConnection() throws SQLException {
-                final var authentication = SecurityContextHolder.getContext().getAuthentication();
-                if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
-                    return getConnection(userDetails.getUsername(), userDetails.getPassword());
-                }
-                getLogger().info("Pegando conexão sem credenciais...");
-                return super.getConnection();
-            }
-
-            @Override
-            public Connection getConnection(final String username, final String password) throws SQLException {
-                getLogger().info("Pegando conexão com credenciais para usuario '{}'...", username);
-                return super.getConnection(username, password);
-            }
+//            @Override
+//            public Connection getConnection() throws SQLException {
+//                final var authentication = SecurityContextHolder.getContext().getAuthentication();
+//                if (authentication != null && authentication.getPrincipal() instanceof UserDetails userDetails) {
+//                    return super.getConnection();
+//                    return getConnection(userDetails.getUsername(), userDetails.getPassword());
+//                }
+//                getLogger().info("Pegando conexão sem credenciais...");
+//                return super.getConnection();
+//            }
+//
+//            @Override
+//            public Connection getConnection(final String username, final String password) throws SQLException {
+//                getLogger().info("Pegando conexão com credenciais para usuario '{}'...", username);
+//                return super.getConnection(username, password);
+//            }
         };
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/t3w");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/wmix");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("mwu7bgmynv9fewVTJ");
+        dataSource.setPassword(System.getenv("PG_PASS"));
         dataSource.setInitialSize(2); // Conexões iniciais
         dataSource.setMaxActive(10); // Máximo de conexões ativas
         dataSource.setMaxIdle(3); // Máximo de conexões ociosas
@@ -99,16 +94,16 @@ public class T3WApplication implements AppShellConfigurator, T3WLoggable {
         return dataSource;
     }
 
-    @Primary
-    @Bean(name = "jc1")
-    JdbcClient jdbcClient1() {
-        getLogger().info("Criando JdbcClient primario...");
-        return JdbcClient.create(dataSourcePostgres());
-    }
-
-    @Bean(name = "jc2")
-    JdbcClient jdbcClient2() {
-        getLogger().info("Criando JdbcClient secundário...");
-        return JdbcClient.create(dataSourcePostgres());
-    }
+//    @Primary
+//    @Bean(name = "jc1")
+//    JdbcClient jdbcClient1() {
+//        getLogger().info("Criando JdbcClient primario...");
+//        return JdbcClient.create(dataSourcePostgres());
+//    }
+//
+//    @Bean(name = "jc2")
+//    JdbcClient jdbcClient2() {
+//        getLogger().info("Criando JdbcClient secundário...");
+//        return JdbcClient.create(dataSourcePostgres());
+//    }
 }

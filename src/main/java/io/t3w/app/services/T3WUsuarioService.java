@@ -21,33 +21,20 @@ public class T3WUsuarioService {
     }
 
     @Transactional(readOnly = true)
-    public T3WUsuarioEntity findUsuarioByUsername(final String username) {
-       return usuarioRepository.findByUsername(username).orElse(null);
+    public T3WUsuarioEntity findUsuarioByEmail(final String username) {
+        return usuarioRepository.findByEmail(username).setSenha("{noop}admin");
     }
 
     @Transactional
     public T3WUsuarioEntity saveUsuario(final T3WUsuarioEntity usuario) {
-        final T3WUsuarioEntity saved;
-        if (usuario.getId() == null) {
-            if (usuario.getSenha() == null || usuario.getSenha().isBlank()) {
-                throw new IllegalArgumentException("Senha obrigatoria para criar usuario");
-            }
-            usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-            saved = usuarioRepository.insert(usuario).orElseThrow();
-        } else {
-            if (usuario.getSenha() != null && !usuario.getSenha().isBlank() && !usuario.getSenha().startsWith("{")) {
-                usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-            }
-            saved = usuarioRepository.update(usuario).orElseThrow();
+        if (usuario.getSenha() == null || usuario.getSenha().isBlank()) {
+            throw new IllegalArgumentException("Senha obrigatoria para criar usuario");
         }
-        return saved;
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        return usuarioRepository.save(usuario);
     }
 
     public List<T3WUsuarioEntity> listPageable(final Pageable pageable) {
-        return this.usuarioRepository.findPageable(pageable);
+        return this.usuarioRepository.findAll(pageable);
     }
-
-//    public DataProvider<T3WUsuarioEntity, ?> dataProvider() {
-//        return DataProvider.fromFilteringCallbacks();
-//    }
 }
